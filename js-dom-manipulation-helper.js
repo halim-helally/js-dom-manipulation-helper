@@ -32,6 +32,7 @@ HTMLElement.prototype.siblings = function () {
         siblings.push(nextEle);
         nextEle = nextEle.nextElementSibling;
     }
+	
     return siblings;
 };
 
@@ -152,6 +153,9 @@ HTMLElement.prototype.removeAttr = function (name) {
     return this.removeAttribute(name);
 };
 
+/*
+ * Ajax Class
+ * */
 class Ajax extends XMLHttpRequest {
     async = true;
     _successCallback;
