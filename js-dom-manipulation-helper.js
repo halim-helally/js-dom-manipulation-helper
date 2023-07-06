@@ -181,7 +181,6 @@ HTMLElement.prototype.removeAttr = function (name)
 }
 
 
-
 class Ajax extends XMLHttpRequest {
     async = true;
     _successCallback;
