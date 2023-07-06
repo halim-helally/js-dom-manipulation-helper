@@ -182,85 +182,14 @@ HTMLElement.prototype.removeAttr = function (name)
 
 
 
-XMLHttpRequest.prototype.get = function(url, callback, fail=null, async=true)
-{
-    this.onreadystatechange = function()
-    {
-        if (this.readyState == 4 && this.status == 200)
-		{			
-			callback(this.responseText, this.getAllResponseHeaders());
-		}
-		else
-		{
-			if(fail!=null)
-			fail(this.responseText, this.getAllResponseHeaders());	
-		}
-            
-    }
-    this.open("GET", url, async);
-    this.send();
-}
-
-
-/*
-* XMLHttpRequest get
-* */
-
-XMLHttpRequest.prototype.get = function (url, async=false) {
-	this.open("GET", url, async);
-    return this;
-}
-
-XMLHttpRequest.prototype.headers = function (headers) {
-    for(key in headers)
-    {
-        this.setRequestHeader(key, headers[key])        
-    }
-    return this; 
-}
-
-XMLHttpRequest.prototype.success = function (callback) {
-    this._onSuccess = callback;
-    return this;
-}
-
-XMLHttpRequest.prototype.fail = function (callback) {
-    this._onFail = callback;
-    return this;
-}
-
-XMLHttpRequest.prototype.dispatch = function (data=null) {
-	this.onreadystatechange = function()
-    {
-        if (this.readyState == 4 && this.status == 200)
-		{
-			if ( this._onSuccess != undefined )	
-				this._onSuccess(this.responseText, this.getAllResponseHeaders());
-		}
-		else
-		{
-			if ( this._onFail != undefined )	
-				this._onFail(this.responseText, this.getAllResponseHeaders());
-		}
-            
-    }
-	
-	
-    if (data!=null) {
-        this.send(data);
-        return;
-    }
-
-    this.send();
-}
-
 class Ajax extends XMLHttpRequest {
-    _async = true;
+    async = true;
     _successCallback;
     _failCallback;
     
     constructor() {
         super();
+		
         this.onreadystatechange = function()
         {
             if (this.readyState == 4 && this.status == 200)
@@ -268,12 +197,17 @@ class Ajax extends XMLHttpRequest {
                 if(this._successCallback != undefined)
         			this._successCallback(this.responseText, this.getAllResponseHeaders());
     		}
-    		else
+    		else if(this.status != 200)
     		{
     			if(this._failCallback != undefined)
         			this._failCallback(this.responseText, this.getAllResponseHeaders());	
     		}
         }
+		
+		this.onabort = function () {
+			if(this._failCallback != undefined)
+				this._failCallback(this.responseText, this.getAllResponseHeaders());			
+		}
     }
 
     set success(func) {
@@ -287,6 +221,11 @@ class Ajax extends XMLHttpRequest {
     get(url) {
         this.open("GET", url, this._async);
         this.send();
-    }    
+    }
+	
+    post(url, data) {
+        this.open("POST", url, this._async);
+        this.send(data);
+    } 	
     
 }
