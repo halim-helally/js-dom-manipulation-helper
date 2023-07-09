@@ -1,5 +1,5 @@
 /**
- * selectors
+ * selector
  */
 let $_ = (selector) => {
     let qs = document.querySelectorAll(selector);
@@ -44,7 +44,7 @@ HTMLElement.prototype.appendHTML = function (htmlString, position = "beforeend")
 };
 
 NodeList.prototype.appendHTML = function (htmlString, position = "beforeend") {
-    this.forEach((ele) => ele.insertAdjacentHTML(position, htmlString));
+    this.forEach(ele => ele.insertAdjacentHTML(position, htmlString));
 };
 
 /*
@@ -69,7 +69,7 @@ HTMLElement.prototype.addClass = function (className) {
 };
 
 NodeList.prototype.addClass = function (className) {
-    this.forEach((ele) => ele.addClass(className));
+    this.forEach(ele => ele.addClass(className));
 };
 
 /*
@@ -80,7 +80,7 @@ HTMLElement.prototype.removeClass = function (className) {
 };
 
 NodeList.prototype.removeClass = function (className) {
-    this.forEach((ele) => ele.removeClass(className));
+    this.forEach(ele => ele.removeClass(className));
 };
 
 /*
@@ -91,7 +91,7 @@ HTMLElement.prototype.toggleClass = function (className) {
 };
 
 NodeList.prototype.toggleClass = function (className) {
-    this.forEach((ele) => ele.toggleClass(className));
+    this.forEach(ele => ele.toggleClass(className));
 };
 
 /*
@@ -100,19 +100,19 @@ NodeList.prototype.toggleClass = function (className) {
 HTMLElement.prototype.on = function (events, callback) {
     events = events.trim().replace(/(\s+)/gm, " ").split(" ");
     for (const event of events) {
-        this.addEventListener(event, (ev) => callback(this, ev));
+        this.addEventListener(event, ev => callback(this, ev));
     }
 };
 
 NodeList.prototype.on = function (events, callback) {
-    this.forEach((ele) => ele.on(events, callback));
+    this.forEach(ele => ele.on(events, callback));
 };
 
 /*
  *  css
  * */
 String.prototype.snakeToCamel = function () {
-    return this.replace(/([-_][a-z])/g, (group) => group.toUpperCase().replace("-", "").replace("_", ""));
+    return this.replace(/([-_][a-z])/g, group => group.toUpperCase().replace("-", "").replace("_", ""));
 };
 
 HTMLElement.prototype.css = function (props, value = null) {
@@ -137,7 +137,7 @@ HTMLElement.prototype.css = function (props, value = null) {
 };
 
 NodeList.prototype.css = function (props, value = null) {
-    this.forEach((ele) => ele.css(props, value));
+    this.forEach(ele => ele.css(props, value));
 };
 
 /*
@@ -147,10 +147,6 @@ NodeList.prototype.css = function (props, value = null) {
 HTMLElement.prototype.attr = function (name, value = null) {
     if (value !== null) this.setAttribute(name, value);
     else return this.getAttribute(name);
-};
-
-HTMLElement.prototype.removeAttr = function (name) {
-    return this.removeAttribute(name);
 };
 
 /*
