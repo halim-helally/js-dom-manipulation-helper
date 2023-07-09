@@ -57,7 +57,7 @@ document.createEle = function (element, propsObj={}, text=null) {
     for (let k in propsObj) {
         propVal = propsObj[k];
         if(propVal instanceof Function)
-            ele[k] = propVal(ele);
+            propVal(ele);
         else
             ele[k] = propVal;
     }
@@ -138,6 +138,22 @@ NodeList.prototype.on = function (events, callback) {
 String.prototype.snakeToCamel = function () {
     return this.replace(/([-_][a-z])/g, group => group.toUpperCase().replace("-", "").replace("_", ""));
 };
+
+/**
+ * string toCssObject
+ */
+String.prototype.toCssObject = function () {
+    const cssArr = this.replace(/\n/g, "").replace(/([{}])/g, group=>group.replace('{', "").replace('}', "")).split(';');
+    let cssObject = {};
+    cssArr.forEach(item=>{
+        if(item !== "")
+        {
+           item = item.split(':');
+           cssObject[item[0].trim(' ')] = item[1].trim(' ');
+        }
+    });
+    return cssObject;
+}
 
 HTMLElement.prototype.css = function (props, value = null) {
     switch (typeof props) {
