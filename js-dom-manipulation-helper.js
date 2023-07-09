@@ -1,8 +1,10 @@
+/*! js-dom-manipulation-helper v1.0.1 | MIT License | github.com/halim-helally/js-dom-manipulation-helper */
+
 /**
  * selector
  */
-let $_ = (selector) => {
-    let qs = document.querySelectorAll(selector);
+let $s = selector => {
+    const qs = document.querySelectorAll(selector);
     if (qs.length == 1) return qs[0];
 
     return qs;
@@ -19,7 +21,7 @@ HTMLElement.prototype.find = function (selector) {
  * siblings
  */
 HTMLElement.prototype.siblings = function () {
-    let siblings = [],
+    const siblings = [],
         prevEle = this.previousElementSibling,
         nextEle = this.nextElementSibling;
 
@@ -46,6 +48,17 @@ HTMLElement.prototype.appendHTML = function (htmlString, position = "beforeend")
 NodeList.prototype.appendHTML = function (htmlString, position = "beforeend") {
     this.forEach(ele => ele.insertAdjacentHTML(position, htmlString));
 };
+
+/*
+* create Element
+*/
+document.createEle = function (element, propsObj={}) {
+    const ele = this.createElement(element);
+    for (let k in propsObj) {
+        ele[k] = propsObj[k];
+    }
+    return ele;    
+}
 
 /*
  * htmlParser
@@ -162,14 +175,14 @@ class Ajax extends XMLHttpRequest {
 
         this.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                if (this._successCallback != undefined) this._successCallback(this.responseText, this.getAllResponseHeaders());
+                if (this._successCallback != undefined) this._successCallback(this.responseText, this);
             } else if (this.status != 200) {
-                if (this._failCallback != undefined) this._failCallback(this.responseText, this.getAllResponseHeaders());
+                if (this._failCallback != undefined) this._failCallback(this.responseText, this);
             }
         };
 
         this.onabort = function () {
-            if (this._failCallback != undefined) this._failCallback(this.responseText, this.getAllResponseHeaders());
+            if (this._failCallback != undefined) this._failCallback(this.responseText, this);
         };
     }
 
