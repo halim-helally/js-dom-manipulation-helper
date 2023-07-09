@@ -52,12 +52,23 @@ NodeList.prototype.appendHTML = function (htmlString, position = "beforeend") {
 /*
 * create Element
 */
-document.createEle = function (element, propsObj={}) {
+document.createEle = function (element, propsObj={}, text=null) {
     const ele = this.createElement(element);
     for (let k in propsObj) {
-        ele[k] = propsObj[k];
+        propVal = propsObj[k];
+        if(propVal instanceof Function)
+            ele[k] = propVal(ele);
+        else
+            ele[k] = propVal;
     }
-    return ele;    
+
+    if(text !== null)
+    {
+        const textNode = document.createTextNode(text);
+        ele.appendChild(textNode);
+    }
+
+    return ele;
 }
 
 /*
