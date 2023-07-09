@@ -135,6 +135,10 @@ NodeList.prototype.on = function (events, callback) {
 /*
  *  css
  * */
+
+/**
+ * string snakeToCamel case
+ */
 String.prototype.snakeToCamel = function () {
     return this.replace(/([-_][a-z])/g, group => group.toUpperCase().replace("-", "").replace("_", ""));
 };
