@@ -144,12 +144,12 @@ String.prototype.snakeToCamel = function () {
  */
 String.prototype.toCssObject = function () {
     const cssArr = this.replace(/\n/g, "").replace(/([{}])/g, group=>group.replace('{', "").replace('}', "")).split(';');
-    let cssObject = {};
-    cssArr.forEach(item=>{
+    const cssObject = {};
+    cssArr.forEach(item => {
         if(item !== "")
         {
-           item = item.split(':');
-           cssObject[item[0].trim(' ')] = item[1].trim(' ');
+           item = item.split(':').map(i=>i.trim(' '));
+           cssObject[item[0]] = (item[1]!=null&&item!="''"&&item[1]!="")?item[1]:" ";
         }
     });
     return cssObject;
