@@ -195,12 +195,12 @@ class Ajax extends XMLHttpRequest {
     }
 
     get(url) {
-        this.open("GET", url, this._async);
+        this.open("GET", url, this.async);
         this.send();
     }
 
     post(url, data) {
-        this.open("POST", url, this._async);
+        this.open("POST", url, this.async);
         this.send(data);
     }
 }
